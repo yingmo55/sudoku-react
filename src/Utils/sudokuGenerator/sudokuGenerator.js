@@ -4,9 +4,9 @@ const sudokuGenerator = {
     rowGroups: [ ['A', 'B', 'C'], ['D', 'E', 'F'], ['G', 'H', 'I'] ],
     columnGroups: [ ['1','2','3'],['4','5','6'],['7','8','9'] ],
 
-
+    //generate all grid coordination
     coordinateGen() {
-        const gridCoord = []; //all grid coordination
+        const gridCoord = [];
     
         for (let i=0; i < this.rows.length; i++){ // rows
             for (let x=0; x < this.columns.length; x++){ // columns
@@ -33,35 +33,44 @@ const sudokuGenerator = {
     getAnswerUnit (coord) {
 
         const sameRow = Array.from(this.columns)
-                            .map(element => coord[0] + element)
-                            .filter(element => element !== coord);
+                            .map(element => coord[0] + element);
+
         const sameColumn = Array.from(this.rows)
-                                .map(element => element + coord[1])
-                                .filter(element => element !== coord);
+                                .map(element => element + coord[1]);
 
-        // get the squares within the same grid
-        const sameGridRow = this.rowGroups.filter(arr => 
-                                arr.includes(coord[0]))[0]
-                                .filter(element=>element !== coord[0])
+        // get the squares within the same 3x3 grid
+        const get3by3Grid = () => {
+            const smallGrid = []; 
+            const sameGridRow = this.rowGroups.filter(arr => arr.includes(coord[0]))[0];
+            const sameGridColumn = this.columnGroups.filter(arr => arr.includes(coord[1]))[0];
 
-        const sameGridColumn = this.columnGroups.filter(arr =>
-                                arr.includes(coord[1]))[0]
-                                .filter(element=>element !== coord[1])
-
-        const nearbyGrid = () => {
-            const nearby = [];
-            for (let i=0; i < sameGridColumn.length; i++){ // rows
-                for (let x=0; x <  sameGridRow.length; x++){ // columns
-                    const coord = sameGridRow[x] + sameGridColumn[i];
-                    nearby.push(coord);
+            for (const col of sameGridColumn) {
+                for (const row of sameGridRow) {
+                    smallGrid.push(row + col)
                 }
             }
-            return nearby;
+            return smallGrid;
         }
 
-        const nearby = nearbyGrid();
-        const unit = [].concat(sameRow, sameColumn, nearby)
+        const nearbyGrid = get3by3Grid();
+
+        // cleanup duplicates
+        const allCoords = new Set([].concat(sameRow, sameColumn, nearbyGrid))
+        const unit =  Array.from(allCoords)
+                           .filter(element => element !== coord)
+
         return unit;
+    },
+
+
+    //shuffle the array
+    shuffle(arr) {
+        const shuffledArray = arr.slice(0); // make a copy of the arr instead of a reference to it
+        for (let i= (shuffledArray.length - 1); i > 0; i--){
+            const randomInt = Math.floor(Math.random() * (shuffledArray.length));
+            [shuffledArray[i],shuffledArray[randomInt]] = [shuffledArray[randomInt] , shuffledArray[i]];
+        }
+        return shuffledArray;
     }
 }
 
