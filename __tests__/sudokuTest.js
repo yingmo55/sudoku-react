@@ -3,19 +3,37 @@ const sudokuGenerator = require('../src/Utils/sudokuGenerator/sudokuGenerator.js
 //functions to test
 
 describe('sudokuGenerator', ()=>{
-    describe(".initializeGrid", () => {
+    describe(".coordinateGen", () => {
         // test initializing an empty grid
         test('should have a length of 81', ()=> {
             const expected = 81;
-            const input = sudokuGenerator.initializeGrid();
+            const input = sudokuGenerator.coordinateGen();
             expect(input).toHaveLength(expected);
         });
 
         it('should have unique items', ()=> {
             const expected = 81;
-            const inputSet = new Set(sudokuGenerator.initializeGrid());
+            const inputSet = new Set(sudokuGenerator.coordinateGen());
             const input = Array.from(inputSet);
             expect (input).toHaveLength(expected);
+        })
+    });
+
+    describe(".initializeGrid", () => {
+        // test initializing an empty grid
+        test('should have a length of 81', ()=> {
+            const expected = 81;
+            const output = sudokuGenerator.initializeGrid();
+            const outputKeys = Object.keys(output);
+            expect(outputKeys).toHaveLength(expected);
+        });
+
+        it('should have unique items', ()=> {
+            const expected = 81;
+            const output = sudokuGenerator.initializeGrid()
+            const outputSet = new Set(Object.keys(output));
+            const setArray = Array.from(outputSet);
+            expect (setArray).toHaveLength(expected);
         })
     });
 
@@ -82,7 +100,7 @@ describe('sudokuGenerator', ()=>{
             it('should contain the 4 remaining value within the same 3x3 grid (B1)', ()=> {
                 const input = 'B1'
                 const result = sudokuGenerator.updateGrid(input)
-                const expected = ['A2', 'B2', 'B3', 'C3'];
+                const expected = ['A2', 'C2', 'A3', 'C3'];
                 expect(result.slice(16, 20)).toStrictEqual(expected);
                 });
             });
