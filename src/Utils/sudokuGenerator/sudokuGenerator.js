@@ -71,7 +71,102 @@ const sudokuGenerator = {
             [shuffledArray[i],shuffledArray[randomInt]] = [shuffledArray[randomInt] , shuffledArray[i]];
         }
         return shuffledArray;
+    },
+
+    // randomly fill in at least 17 squares
+    startNewGame(shuffledCoords, difficulty) {
+        // verify input
+        if (!Array.isArray(shuffledCoords)) {
+            throw new Error(`expect shuffledCoords to be Array, instead get ${typeof(shuffledCoords)}`);
+        }
+        //check array is empty
+        if (shuffledCoords.length < 1) {
+            throw new Error(`expect shuffledCoords to have input, instead get empty array `);
+        }
+
+        const emptyGrid = this.initializeGrid();
+        const newGame = {...emptyGrid};
+
+        const getRandomNumber = (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        let numOfEmptySquares;
+        switch(difficulty){
+            case 'easy':
+                numOfEmptySquares = getRandomNumber(35, 45);
+                break;
+            case 'medium':
+                numOfEmptySquares = getRandomNumber(28, 34);
+                break;
+            case 'hard':
+                numOfEmptySquares = getRandomNumber(18, 27);
+                break;
+            default:
+                numOfEmptySquares = 17;
+                break;
+        }
+
+        const filledSquares = shuffledCoords.slice(0, numOfEmptySquares);
+
+        // ensure the grid has unique numbers
+        for (let i=0; i < 9; i++) {
+            for (let x=1; x<10; x++) {
+            newGame[filledSquares[i]] = [x.toString()];
+            }
+        }
+
+        for (let i=9; i < filledSquares.length; i++) {
+            const randomNum = Math.floor(Math.random() * 9) + 1
+            newGame[filledSquares[i]] = [randomNum.toString()];
+        }
+        return newGame;
+    },
+
+    updateAnswer (coord, grid, answer) {
+        //check data type
+        if (typeof(grid) !== 'object' || Array.isArray(grid)) {
+            throw new Error(`expect grid to be object, instead get ${Array.isArray(grid) ? 'array' : typeof(grid)}`);
+        }
+        //check if object is empty
+        if (Object.keys(grid).length < 1) {
+            throw new Error(`expect grid have input, instead get empty object `);
+        }
+
+        const updatedGrid = {...grid};
+        updatedGrid[coord] = [answer];
+        return updatedGrid;
+    },
+
+    updateNearbyUnit (coord, grid) {
+        //check data type
+        if (typeof(grid) !== 'object' || Array.isArray(grid)) {
+            throw new Error(`expect grid to be object, instead get ${Array.isArray(grid) ? 'array' : typeof(grid)}`);
+        }
+        //check if object is empty
+        if (Object.keys(grid).length < 1) {
+            throw new Error(`expect grid have input, instead get empty object `);
+        }
+
+        const updatedGrid = {...grid};
+        const nearbyUnit = this.getAnswerUnit(coord);
+        for (let i=0; i < length.nearbyUnit; i++) {
+            if (updatedGrid[nearbyUnit[i]].length != 1 && updatedGrid[nearbyUnit[i]][0] !== updatedGrid[coord][0]) {
+                updatedGrid[nearbyUnit[i]].filter(answer => answer !== updatedGrid[coord][0]); 
+            }
+        } //while updating, also update the updated grid's nearby grid
+          // do it with an effect hook
+    },
+
+    checkAnswer(grid) {
+
     }
 }
 
 module.exports = sudokuGenerator;
+
+const arr = sudokuGenerator.coordinateGen();
+const shuffled = sudokuGenerator.shuffle(arr);
+const emptyGrid = sudokuGenerator.initializeGrid();
+const newGame = sudokuGenerator.startNewGame(shuffled, 'easy');
+console.log(newGame)
