@@ -5,19 +5,28 @@ const sudokuGenerator = {
     columnGrid: [ ['1','2','3'],['4','5','6'],['7','8','9'] ],
 
 
-    initializeGrid() {
-        const possibleAnswer = Array.from(this.columns);
+    coordinateGen() {
         const gridCoord = []; //all grid coordination
-        const grid = {}; // the grid and possible answers
     
         for (let i=0; i < this.rows.length; i++){ // rows
             for (let x=0; x < this.columns.length; x++){ // columns
                 const coord = this.rows[i] + this.columns[x];
                 gridCoord.push(coord);
-                grid[coord] = possibleAnswer;
             }
         }
         return gridCoord;
+    },
+
+    // generate an "empty" grid where all possible answers are presented
+    initializeGrid() {
+        const coordinates = this.coordinateGen();
+        const possibleAnswer = Array.from(this.columns);
+        const grid = {}; // the grid and possible answers
+        for (let i=0; i < coordinates.length; i++){ // columns
+            const coord = coordinates[i]
+            grid[coord] = possibleAnswer;
+        }
+        return grid;
     },
 
     updateGrid (coord) {
@@ -53,5 +62,3 @@ const sudokuGenerator = {
 }
 
 module.exports = sudokuGenerator;
-
-sudokuGenerator.initializeGrid()
