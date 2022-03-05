@@ -1,8 +1,8 @@
 const sudokuGenerator = {
     rows: 'ABCDEFGHI',
     columns: '123456789',
-    rowGrid: [ ['A', 'B', 'C'], ['D', 'E', 'F'], ['G', 'H', 'I'] ],
-    columnGrid: [ ['1','2','3'],['4','5','6'],['7','8','9'] ],
+    rowGroups: [ ['A', 'B', 'C'], ['D', 'E', 'F'], ['G', 'H', 'I'] ],
+    columnGroups: [ ['1','2','3'],['4','5','6'],['7','8','9'] ],
 
 
     coordinateGen() {
@@ -20,7 +20,7 @@ const sudokuGenerator = {
     // generate an "empty" grid where all possible answers are presented
     initializeGrid() {
         const coordinates = this.coordinateGen();
-        const possibleAnswer = Array.from(this.columns);
+        const possibleAnswer = [].concat(...this.columnGroups);
         const grid = {}; // the grid and possible answers
         for (let i=0; i < coordinates.length; i++){ // columns
             const coord = coordinates[i]
@@ -29,23 +29,27 @@ const sudokuGenerator = {
         return grid;
     },
 
-    updateGrid (coord) {
-        const possibleAnswer = Array.from(this.columns);
-        let sameRow = possibleAnswer.map(element => coord[0] + element);
-        sameRow = sameRow.filter(element => element !== coord);
-        let sameColumn = Array.from(this.rows).map(element => element + coord[1]);
-        sameColumn = sameColumn.filter(element => element !== coord);
+    // get an array of 20 coordinates of squares to check answers
+    getAnswerUnit (coord) {
 
+        const sameRow = Array.from(this.columns)
+                            .map(element => coord[0] + element)
+                            .filter(element => element !== coord);
+        const sameColumn = Array.from(this.rows)
+                                .map(element => element + coord[1])
+                                .filter(element => element !== coord);
 
         // get the squares within the same grid
-        let sameGridRow = this.rowGrid.filter(arr => arr.includes(coord[0]))[0]
-        sameGridRow = sameGridRow.filter(element=>element !== coord[0])
+        const sameGridRow = this.rowGroups.filter(arr => 
+                                arr.includes(coord[0]))[0]
+                                .filter(element=>element !== coord[0])
 
-        let sameGridColumn = this.columnGrid.filter(arr => arr.includes(coord[1]))[0]
-        sameGridColumn = sameGridColumn.filter(element=>element !== coord[1])
+        const sameGridColumn = this.columnGroups.filter(arr =>
+                                arr.includes(coord[1]))[0]
+                                .filter(element=>element !== coord[1])
 
         const nearbyGrid = () => {
-            let nearby = [];
+            const nearby = [];
             for (let i=0; i < sameGridColumn.length; i++){ // rows
                 for (let x=0; x <  sameGridRow.length; x++){ // columns
                     const coord = sameGridRow[x] + sameGridColumn[i];
