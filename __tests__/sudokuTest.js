@@ -131,5 +131,99 @@ describe('sudokuGenerator', ()=>{
             expect(finalOutput).toHaveLength(expected);
         });
     });
+
+    describe('.updateAnswer', () => {
+
+        describe('verify input', ()=>{
+            it('should throw an error with no arguments', ()=>{
+                expect(sudokuGenerator.updateAnswer).toThrow();
+            });
+            it('should throw an error with less than 3 arguments(1 input)', ()=>{
+                expect(()=> sudokuGenerator.updateAnswer('A1')).toThrow();
+            });
+            it('should throw an error with less than 3 arguments (2 inputs)', ()=>{
+                expect(()=> sudokuGenerator.updateAnswer('A1', '2')).toThrow();
+            });
+            it('should throw an error with unsupported input type', ()=>{
+                expect(()=> sudokuGenerator.updateAnswer('A1', true, '2')).toThrow();
+            });
+            it('should throw an error if 2nd argument is an empty object', ()=>{
+                expect(()=> sudokuGenerator.updateAnswer('A1', {}, '2')).toThrow();
+            });
+
+        })
+
+        describe('check if answer is updated', ()=> {
+            it('should update the answer (\'A1\', \'1\')', ()=>{
+                const coord = 'A1'
+                const grid = sudokuGenerator.initializeGrid();
+                const answer = '1';
+                const expected = ['1'];
+                const result = sudokuGenerator.updateAnswer(coord, grid, answer);
+    
+                expect(result[coord]).toStrictEqual(expected);
+            });
+            it('should update the answer (\'H3\', \'9\')', ()=> {
+                const coord = 'H3'
+                const grid = sudokuGenerator.initializeGrid();
+                const answer = '9';
+                const expected = ['9'];
+                const result = sudokuGenerator.updateAnswer(coord, grid, answer);
+    
+                expect(result[coord]).not.toBe(expected);
+            });
+        })
+
+        describe('check if original grid is mutated', () => {
+            it('should return an updated grid with the input answer (\'A1\', \'1\')', ()=> {
+                const coord = 'A1'
+                const grid = sudokuGenerator.initializeGrid();
+                const answer = '1';
+                const result = sudokuGenerator.updateAnswer(coord, grid, answer);
+    
+                expect(result).not.toBe(grid);
+            });
+            it('should return an updated grid with the input answer (\'A1\', \'2\')', ()=> {
+                const coord = 'A1'
+                const grid = sudokuGenerator.initializeGrid();
+                const answer = '2';
+                const result = sudokuGenerator.updateAnswer(coord, grid, answer);
+    
+                expect(result).not.toBe(grid);
+            });
+            it('should return an updated grid with the input answer (\'H3\', \'9\')', ()=> {
+                const coord = 'H3'
+                const grid = sudokuGenerator.initializeGrid();
+                const answer = '9';
+                const result = sudokuGenerator.updateAnswer(coord, grid, answer);
+    
+                expect(result).not.toBe(grid);
+            });
+        })
+
+        describe('.startNewGame', () => {
+            describe('verify inputs', ()=>{
+                it('should throw an error with no arguments', ()=>{
+                    expect(sudokuGenerator.startNewGame).toThrow();
+                });
+                it('should throw an error with less than 2 arguments(1 input)', ()=>{
+                    expect(()=> sudokuGenerator.startNewGame([])).toThrow();
+                });
+                it('should throw an error with less than 2 arguments(1 input)', ()=>{
+                    expect(()=> sudokuGenerator.startNewGame('easy')).toThrow();
+                });
+            })
+
+            it('should return an updated grid', ()=>{
+                const arr = sudokuGenerator.coordinateGen();
+                const shuffled = sudokuGenerator.shuffle(arr);
+                const emptyGrid = sudokuGenerator.initializeGrid();
+                const newGame = sudokuGenerator.startNewGame(shuffled, 'easy');
+
+                expect(newGame).not.toBe(emptyGrid);
+            })
+        })
+
+    })
 })
 // ['A2','A3', 'A4', "A5", 'A6', 'A7', 'A8', 'A9', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', ]
