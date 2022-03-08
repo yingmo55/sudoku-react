@@ -159,14 +159,13 @@ const sudokuGenerator = {
     },
 
     checkAnswer(grid) {
+        const sameRow = Array.from(this.columns)
+                            .map(element => coord[0] + element);
+
+        const sameColumn = Array.from(this.rows)
+                                .map(element => element + coord[1]);
 
     }
 }
 
 module.exports = sudokuGenerator;
-
-const arr = sudokuGenerator.coordinateGen();
-const shuffled = sudokuGenerator.shuffle(arr);
-const emptyGrid = sudokuGenerator.initializeGrid();
-const newGame = sudokuGenerator.startNewGame(shuffled, 'easy');
-console.log(newGame)
