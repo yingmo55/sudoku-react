@@ -1,3 +1,61 @@
 html {
-  background-color: #282c34;
+  background-color: #b5bac4;
+  font-size: 16px;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+h1 .title-ready {
+  font-size: 1.5rem;
+}
+
+h1 .title-sudoku {
+  text-transform: uppercase;
+  font-size: 4.5rem;
+  position: relative;
+  right: 50px;
+  padding-top: 4px;
+}
+
+.sudoku-container {
+  display: flex;
+  justify-content: center;
+}
+
+.sudoku-grid {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border: 5px solid #000;
+}
+
+input {
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+  border: 2px solid #000;
+  font-size: 2rem;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.three-by-three {
+  border: 3px solid #000;
+}
+
+.t-by-t-row {
+  display: flex;
+  justify-content: center;
 }
