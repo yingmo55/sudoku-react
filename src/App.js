@@ -6,9 +6,11 @@ import { SudokuGrid } from './Components/SudokuGrid/SudokuGrid.js'
 function App() {
   return (
     <>
-      <h1><span className='title-ready'>Ready, Set,</span> <span className='title-sudoku'>Sudoku</span></h1>
-      <Options />
-      <SudokuGrid />
+      <div className='game-container'>
+        <h1><span className='title-ready'>Ready, Set,</span> <span className='title-sudoku'>Sudoku</span></h1>
+        <Options />
+        <SudokuGrid />
+      </div>
     </>
   );
 }

@@ -1,61 +1,202 @@
 html {
-  background-color: #b5bac4;
+  background-color: #a2c4c2;
+  background: linear-gradient(-30deg, #a6dbd8, #2961b4);
   font-size: 16px;
 }
+
+/* Clear default button styles */
+button {
+  background-color: #ffffff00;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.game-container {
+  display: grid;
+  grid-template: repeat(5, 1fr) / repeat(5, 1fr);
+  height: 100vh;
+  width: 750px;
+  background-color: #f8fcff;
+  margin: 0 auto;
+  box-shadow: #0c44409a 4px 0px 4px, #0c44409a -4px 0px 4px;
+}
+
+/* ---GAME TITLE--- */
 
 h1 {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  margin: auto 0;
+  grid-area: 1 / 2 / 2 / 5;
 }
 
 h1 .title-ready {
   font-size: 1.5rem;
+  color: #283d75;
+  font-family: 'Nothing You Could Do', Arial, sans-serif;
 }
 
 h1 .title-sudoku {
   text-transform: uppercase;
   font-size: 4.5rem;
   position: relative;
-  right: 50px;
-  padding-top: 4px;
+  right: 55px;
+  padding-top: 5px;
+  color: #141b5a;
+  text-shadow: #8db7df -10px 12px, #bee6e4 -17px 25px;
+  font-weight: 900;
+  font-family: 'Heebo', Arial, sans-serif;
 }
+
+/* ---SUDOKU GRID--- */
 
 .sudoku-container {
   display: flex;
   justify-content: center;
+  grid-area: 2 / 2 / 5 / 5;
 }
 
 .sudoku-grid {
   display: flex;
   align-items: center;
   flex-direction: column;
-  border: 5px solid #000;
-}
-
-input {
-  width: 50px;
-  height: 50px;
-  padding: 0;
-  margin: 0;
-  border: 2px solid #000;
-  font-size: 2rem;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-input[type="number"]::-webkit-inner-spin-button, 
-input[type="number"]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
-
-.three-by-three {
-  border: 3px solid #000;
+  border: 4px solid #000;
+  margin: auto 0;
 }
 
 .t-by-t-row {
   display: flex;
   justify-content: center;
+}
+
+.three-by-three {
+  border: 2px solid #000;
+}
+
+input {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #000;
+  font-size: 2rem;
+}
+
+/* ---OPTIONS--- */
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  grid-area: 1 / 5 / 6 / 6;
+  background-color: #a6dbd8;
+  box-shadow: #0c44409a -3px 0px 3px;
+}
+
+.options-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+  color: #141b5a;
+  font-family: 'Heebo', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.options .fontAwesomeIcon {
+  font-size: 2rem;
+}
+
+.options-btn:hover {
+  cursor: pointer;
+}
+
+.options-btn:disabled {
+  color: #63878f;
+  cursor: default;
+}
+
+/* ---MEDIA QUERIES--- */
+@media only screen and (min-height: 1500px) {
+  h1 {
+    grid-area: 2 / 2 / 3 / 5;
+  }
+  
+  .sudoku-container {
+    grid-area: 3 / 2 / 4 / 5;
+  }
+
+  .options {
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  html {
+    font-size: 12px;
+  }
+  
+  .game-container {
+    width: 100vw;
+  }
+
+  input {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .game-container {
+    grid-template: repeat(5, 1fr) / repeat(7, 1fr)
+  }
+
+  h1 {
+    grid-area: 1 / 2 / 2 / 7;
+  }
+
+  .options {
+    grid-area: 1 / 7 / 6 / 8;
+  }
+
+  .sudoku-container {
+    grid-area: 2 / 2 / 5 / 7;
+  }
+}
+
+@media only screen and (max-width: 482px) { 
+  h1 {
+    grid-area: 1 / 1 / 2 / 7;
+  }
+  
+  h1 .title-ready {
+    font-size: 1.25rem;
+  }
+
+  h1 .title-sudoku {
+    font-size: 3.5rem;
+  }
+
+  .sudoku-container {
+    grid-area: 2 / 1 / 4 / 7;
+  }
+  
+  input {
+    width: 20px;
+    height: 20px;
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  h1 .title-ready {
+    font-size: 1.25rem;
+  }
+
+  h1 .title-sudoku {
+    font-size: 3rem;
+  }
 }
