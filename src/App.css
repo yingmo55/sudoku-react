@@ -1,7 +1,13 @@
+/* ---GLOBAL STYLES--- */
+
 html {
   background-color: #a2c4c2;
   background: linear-gradient(-30deg, #a6dbd8, #2961b4);
   font-size: 16px;
+}
+
+.no-display {
+  display: none;
 }
 
 /* Clear default button styles */
@@ -12,14 +18,23 @@ button {
   margin: 0;
 }
 
+/* ---SUDOKU GAME CONTAINER--- */
+
 .game-container {
   display: grid;
   grid-template: repeat(5, 1fr) / repeat(5, 1fr);
   height: 100vh;
   width: 750px;
-  background-color: #f8fcff;
+  background-color: #f1f8fd;
   margin: 0 auto;
   box-shadow: #0c44409a 4px 0px 4px, #0c44409a -4px 0px 4px;
+}
+
+.game-and-title {
+  grid-area: 1 / 1 / 6 / 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* ---GAME TITLE--- */
@@ -28,8 +43,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  margin: auto 0;
-  grid-area: 1 / 2 / 2 / 5;
+  margin: 0;
 }
 
 h1 .title-ready {
@@ -55,7 +69,7 @@ h1 .title-sudoku {
 .sudoku-container {
   display: flex;
   justify-content: center;
-  grid-area: 2 / 2 / 5 / 5;
+  padding-top: 40px;
 }
 
 .sudoku-grid {
@@ -85,10 +99,11 @@ input {
 }
 
 /* ---OPTIONS--- */
+
 .options {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   grid-area: 1 / 5 / 6 / 6;
   background-color: #a6dbd8;
   box-shadow: #0c44409a -3px 0px 3px;
@@ -112,6 +127,11 @@ input {
 
 .options-btn:hover {
   cursor: pointer;
+  color: #385ba5;
+}
+
+.options-btn:active {
+  color: #2a645e;
 }
 
 .options-btn:disabled {
@@ -119,26 +139,44 @@ input {
   cursor: default;
 }
 
-/* ---MEDIA QUERIES--- */
-@media only screen and (min-height: 1500px) {
-  h1 {
-    grid-area: 2 / 2 / 3 / 5;
-  }
-  
-  .sudoku-container {
-    grid-area: 3 / 2 / 4 / 5;
-  }
+/* ---CARD OVERLAY (VICTORY, HOW-TO etc)--- */
 
-  .options {
-    justify-content: center;
-  }
+.card-overlay-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #0000007a;
 }
 
+.card-overlay {
+  width: 100vw;
+  background-color: #d6ebee;
+  padding: 2% 5%;
+}
+
+.close-btn {
+  float: right;
+  font-size: 1.5rem;
+  color: #2b5c63;
+}
+
+.close-btn:hover {
+  cursor: pointer;
+  color: #df2929;
+}
+
+.close-btn:active {
+  color: #8f2929;
+}
+
+/* ---MEDIA QUERIES--- */
+
 @media only screen and (max-width: 768px) {
-  html {
-    font-size: 12px;
-  }
-  
   .game-container {
     width: 100vw;
   }
@@ -150,28 +188,24 @@ input {
 }
 
 @media only screen and (max-width: 575px) {
+  html {
+    font-size: 12px;
+  }
+  
   .game-container {
     grid-template: repeat(5, 1fr) / repeat(7, 1fr)
   }
 
-  h1 {
-    grid-area: 1 / 2 / 2 / 7;
+  .game-and-title {
+    grid-area: 1 / 1 / 6 / 7;
   }
 
   .options {
     grid-area: 1 / 7 / 6 / 8;
   }
-
-  .sudoku-container {
-    grid-area: 2 / 2 / 5 / 7;
-  }
 }
 
 @media only screen and (max-width: 482px) { 
-  h1 {
-    grid-area: 1 / 1 / 2 / 7;
-  }
-  
   h1 .title-ready {
     font-size: 1.25rem;
   }
@@ -180,23 +214,9 @@ input {
     font-size: 3.5rem;
   }
 
-  .sudoku-container {
-    grid-area: 2 / 1 / 4 / 7;
-  }
-  
   input {
     width: 20px;
     height: 20px;
     font-size: 1.5rem;
-  }
-}
-
-@media only screen and (max-width: 375px) {
-  h1 .title-ready {
-    font-size: 1.25rem;
-  }
-
-  h1 .title-sudoku {
-    font-size: 3rem;
   }
 }
