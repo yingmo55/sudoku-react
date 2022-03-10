@@ -157,6 +157,9 @@ input {
   width: 100vw;
   background-color: #d6ebee;
   padding: 2% 5%;
+  max-width: 768px;
+  box-shadow: #021b1a9a 4px 0px 4px, #021b1a9a -4px 0px 4px, #021b1a9a 0px 4px 4px;
+  border-radius: 20px;
 }
 
 .close-btn {
@@ -172,6 +175,78 @@ input {
 
 .close-btn:active {
   color: #8f2929;
+}
+
+h2 {
+  display: flex;
+  justify-content: center;
+  font-family: 'Nothing You Could Do', sans-serif;
+  font-size: 1.75rem;
+  padding: 0;
+  margin: 0;
+}
+
+.card-overlay p {
+  font-size: 1rem;
+  font-family: 'Heebo', Arial, sans-serif;
+  padding: 10px 0;
+  margin: 0 auto;
+  max-width: 1440px;
+}
+
+/* ---NEW GAME--- */
+
+.difficulty-select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 15px;
+}
+
+.difficulty-select button {
+  font-family: 'Heebo', Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: 600;
+  width: 100px;
+  height: 40px;
+  margin: auto 10px;
+  border-radius: 10px;
+  background-size: 150px;
+  background-position: -50px;
+  transition: background 0.4s ease-out 0.1s;
+}
+
+.difficulty-select button:hover {
+  cursor: pointer;
+  background-position: 0px;
+}
+
+.difficulty-select button:active {
+  border-bottom: none;
+  position: relative;
+  top: 3px;
+}
+
+.easy-btn {
+  background-color: #7bce73;
+  background: linear-gradient(90deg, #7bce73, #e6dd6d);
+  color: #0a4924;
+  border-bottom: 3px solid #4b837a;
+}
+
+.medium-btn {
+  background-color: #e6dd6d;
+  background: linear-gradient(90deg, #e6dd6d, #ec9c51);
+  color: #4e3e09;
+  border-bottom: 3px solid #886b1b;
+}
+
+.hard-btn {
+  background-color: #e9a15e;
+  background: linear-gradient(90deg, #ec9c51, #d64d3b);
+  color: #5c1908;
+  border-bottom: 3px solid #7c1818;
 }
 
 /* ---MEDIA QUERIES--- */
@@ -202,6 +277,10 @@ input {
 
   .options {
     grid-area: 1 / 7 / 6 / 8;
+  }
+
+  .difficulty-select button {
+    width: 70px;
   }
 }
 
