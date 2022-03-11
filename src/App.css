@@ -86,6 +86,8 @@ h1 .title-sudoku {
 }
 
 .three-by-three {
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   border: 2px solid #000;
 }
 
@@ -96,6 +98,12 @@ input {
   margin: 0;
   border: 1px solid #000;
   font-size: 2rem;
+  text-align: center;
+}
+
+input:disabled {
+  background-color: #24242437;
+  color: #fff;
 }
 
 /* ---OPTIONS--- */
