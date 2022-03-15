@@ -13,10 +13,12 @@ function App() {
   const [victoryCardIsVisible, setVictoryCardIsVisible] = useState(false);
   const [wrongAnswerCardIsVisible, setWrongAnswerCardIsVisible] = useState(false);
   const [isWin, setIsWin] = useState(false);
-  const [initialSudoku, setInitialSudoku] = useState(undefined);
-  const [history, setHistory] = useState(undefined)
-  const [undoValue, setUndoValue] = useState(undefined);
+  const [initialSudoku, setInitialSudoku] = useState(undefined); //computer generated sudoku
+  const [currentSudoku, setCurrentSudoku] = useState([]); //current state of the sudoku board
+  const [history, setHistory] = useState(undefined);
+  const [undoIsClicked, setUndoIsClicked] = useState(false);
   
+  // Close all popup windows
   const handleCardClose = () => {
     setHowToIsVisible(false);
     setNewGameIsVisible(false);
@@ -24,6 +26,7 @@ function App() {
     setWrongAnswerCardIsVisible(false);
   }
 
+  // Click handlers for all options, in order of appearance in the UI
   const handleHowToClick = () => {
       setHowToIsVisible(true);
   }
@@ -32,7 +35,30 @@ function App() {
     setNewGameIsVisible(true);
   }
 
+  const startGame = (e) => {
+    let difficulty = e.target.value;
+    // PLACEHOLDER FUNCTION
+    console.log(difficulty);
+    setInitialSudoku([]);
+  }
+
+  const handleDifficultyClick = (e) => {
+    startGame(e);
+  }
+
   const handleCheckAnswerClick = () => {
+    // PLACEHOLDER FUNCTION
+    function checkAnswer() {
+      let random = Math.floor(Math.random() * 1);
+      if (random === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    setIsWin(checkAnswer())
+
     if (isWin) {
       setVictoryCardIsVisible(true);
     } else {
@@ -40,26 +66,39 @@ function App() {
     }
   }
 
+  // Undo/Redo logic
   const handleUndoClick = () => {
-    if (history[history.length - 1].name === 'number') {
-      setUndoValue(history[history.length - 1]);
+    if (history) {
+      setCurrentSudoku(history[history.length - 2]);
+      console.log(currentSudoku);
+      setUndoIsClicked(true);
+      setUndoIsClicked(false);
     }
   }
 
   const addToHistory = (e) => {
-    let newObject = {name: e.target.name, id: e.target.id, value: e.target.value};
+    let newObject = {id: e.target.id, value: e.target.value};
+    let prev;
+
     if (!history) {
-      setHistory([newObject])
+      setHistory([[newObject]])
+
     } else {
-      let prev;
+      // Only keep a certain amount of moves in the history state
       if (history.length > 7) {
         prev = history.slice(history.length - 7);
       } else {
-        prev = history;
+        prev = [...history];
       }
-      setHistory([...prev, newObject]);
+
+      // Each state of the board is represented by an array of objects containing input value and ID
+      let index = prev.length - 1;
+      let lastBoard = [...prev[index]];
+      lastBoard.push(newObject);
+      setHistory([...prev, lastBoard]);
+
+      setCurrentSudoku(history[history.length - 1]);
     }
-    console.log(history);
   }
 
   return (
@@ -67,7 +106,7 @@ function App() {
       <div className='game-container'>
           <div className='game-and-title'>
             <h1><span className='title-ready'>Ready, Set,</span> <span className='title-sudoku'>Sudoku</span></h1>
-            <SudokuGrid addToHistory={addToHistory} undoValue={undoValue} />
+            <SudokuGrid addToHistory={addToHistory} undoIsClicked={undoIsClicked} currentSudoku={currentSudoku} />
           </div>
         <Options 
           handleHowToClick={handleHowToClick} 
@@ -79,7 +118,7 @@ function App() {
           />
       </div>
       <HowToPlay isVisible={howToIsVisible} handleCardClose={handleCardClose} />
-      <NewGame isVisible={newgameIsVisible} handleCardClose={handleCardClose} />
+      <NewGame isVisible={newgameIsVisible} handleCardClose={handleCardClose} handleDifficultyClick={handleDifficultyClick} />
       <VictoryCard isVisible={victoryCardIsVisible} handleCardClose={handleCardClose} />
       <WrongAnswerCard isVisible={wrongAnswerCardIsVisible} handleCardClose={handleCardClose} />
     </>
