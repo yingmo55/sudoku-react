@@ -150,14 +150,15 @@ const sudokuGenerator = {
 
         const updatedGrid = {...grid};
         const nearbyUnit = this.getAnswerUnit(coord);
-        for (let i=0; i < length.nearbyUnit; i++) {
-            if (updatedGrid[nearbyUnit[i]].length != 1 && updatedGrid[nearbyUnit[i]][0] !== updatedGrid[coord][0]) {
+        for (let i=0; i < nearbyUnit.length; i++) {
+            if (updatedGrid[nearbyUnit[i]].length !== 1 && updatedGrid[nearbyUnit[i]][0] !== updatedGrid[coord][0]) {
                 updatedGrid[nearbyUnit[i]].filter(answer => answer !== updatedGrid[coord][0]); 
             }
         } //while updating, also update the updated grid's nearby grid
           // do it with an effect hook
     },
 
+    /* commented out for ui testing purposes
     checkAnswer(grid) {
         const sameRow = Array.from(this.columns)
                             .map(element => coord[0] + element);
@@ -166,6 +167,7 @@ const sudokuGenerator = {
                                 .map(element => element + coord[1]);
 
     }
+    */
 }
 
 module.exports = sudokuGenerator;
